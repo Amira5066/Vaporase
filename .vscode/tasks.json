@@ -1,0 +1,49 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Build ASM",
+      "type": "shell",
+      "command": "ml",
+      "args": [
+        "${file}",
+        "/Fe",
+        "${fileDirname}\\..\\build\\${fileBasenameNoExtension}.exe",
+        "/link",
+        "/subsystem:console",
+        "${fileDirname}\\..\\lib\\msvcrt.lib",
+        "${fileDirname}\\..\\lib\\canvas.lib"
+      ],
+      "problemMatcher": []
+    },
+    {
+      "label": "Run",
+      "type": "shell",
+      "command": "${fileDirname}\\..\\build\\${fileBasenameNoExtension}.exe"
+    },
+    {
+      "label": "Debug",
+      "type": "shell",
+      "command": "ollydbg",
+      "args": [
+        "${fileDirname}\\..\\build\\${fileBasenameNoExtension}.exe"
+      ],
+      "dependsOn": ["Build ASM"]
+    },
+    {
+      "label": "Build ASM & Run",
+      "dependsOrder": "sequence",
+      "dependsOn": [
+        "Build ASM",
+        "Run"
+      ],
+      "problemMatcher": [],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}
